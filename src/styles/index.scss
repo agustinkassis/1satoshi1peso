@@ -1,0 +1,64 @@
+@import "base/reset";
+@import "base/common";
+
+
+body {
+
+}
+
+section {
+  text-align: center;
+  margin-top: 45px;
+}
+
+section#loading {
+  display: none;
+  h1 {
+    font-size: 5em;
+  }
+}
+
+section#date {}
+
+section#date h1 {
+    font-size: 5em;
+}
+
+.quote {
+  font-size: 4em;
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 720px;
+  transition: 1s transform;
+
+  .left {
+    text-align: right;
+    flex: 1 1 1px;
+  }
+
+  .right {
+    text-align: left;
+    flex: 1 1 1px;
+
+    .symbol span {
+      position: absolute;
+      margin-left: 0.2em;
+    }
+  }
+
+  .equal {
+    margin: 0px 13px 0px 13px;
+    flex: inherit;
+  }
+
+}
+
+.times {
+  font-size: 4em;
+  text-align: center;
+  padding-left: 3em;
+}
+
+.hidden {
+  display:none;
+}
