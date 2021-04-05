@@ -6,6 +6,10 @@ body {
 
 }
 
+main {
+  padding: 10px;
+}
+
 section {
   text-align: center;
   margin-top: 45px;
@@ -31,17 +35,24 @@ section#date h1 {
   min-width: 720px;
   transition: 1s transform;
 
+  .side {
+    flex: 1 1 1px;
+
+    > span {
+      display: inline-block;
+    }
+  }
+
   .left {
     text-align: right;
-    flex: 1 1 1px;
+    padding-right: 16px;
   }
 
   .right {
     text-align: left;
-    flex: 1 1 1px;
+    padding-left: 16px;
 
     .symbol span {
-      position: absolute;
       margin-left: 0.2em;
     }
   }
