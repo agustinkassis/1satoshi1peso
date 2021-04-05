@@ -3,6 +3,7 @@ import Footer from '../components/Footer'
 import Date from '../components/Date'
 import Quote from '../components/Quote'
 import Times from '../components/Times'
+import ProgressBar from '../components/ProgressBar'
 
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
@@ -24,6 +25,7 @@ class Home extends React.Component {
     this.date = null;
     this.mainQuote = null;
     this.usdArsQuote = null;
+    this.progressBar = null;
   }
 
   componentDidMount () {
@@ -88,12 +90,7 @@ class Home extends React.Component {
           <div>1 Satoshi = 0,0297 ARS</div>
         </section>
 
-        <section id="progress">
-          <div>Progreso</div>
-          <div className="progress" style={{ height: '50px' } }>
-            <div className="progress-bar progress-bar-striped" role="progressbar" style={{ width: '2.97%' } }>2.97%</div>
-          </div>
-        </section>
+        <ProgressBar opacity={1} ref={comp => { this.progressBar = comp }} progress={ 9.6 } />
 
         <Footer />
       </main>
