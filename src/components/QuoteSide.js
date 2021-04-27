@@ -83,7 +83,7 @@ class QuoteSide extends React.Component {
     return (
       <div ref={comp => { this.element = comp }} style={{ opacity: this.props.opacity }} className={ `side ${this.props.className}` }>
         <span ref={comp => { this.qtyElement = comp }} className="qty">
-          <span>{ this.state.qty }</span>
+          <span>{ this.state.qty.toLocaleString() }</span>
         </span>
         <span ref={comp => { this.symbolElement = comp }} className="symbol">
           <span>{ this.state.symbol }</span>
