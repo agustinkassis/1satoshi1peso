@@ -1,52 +1,34 @@
-#1Satoshi1Peso
+# 1Satoshi1Peso
 
-### Demo
-https://1satoshi1peso.ar
+## Available Scripts
 
-### Prerequisites
-* You'll need to have [git](https://git-scm.com/) and [node](https://nodejs.org/en/) installed in your system.
+In the project directory, you can run:
 
-### To run
-* Fork and clone the project:
+### `yarn start`
 
-```
-git clone https://github.com/ReactJSResources/react-webpack-babel.git
-```
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-* Then install the dependencies:
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-```
-npm install
-```
+### `yarn test`
 
-* Run development server:
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-```
-npm run dev
-```
+### `yarn build`
 
-Open the web browser to `http://localhost:8080/`
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### To test
-To run unit tests:
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-```
-npm run test
-```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### To build the production package
-```
-npm run build
-```
+## Learn More
 
-### Eslint
-There is a `.eslintrc.js` config for eslint ready with React plugin.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To run linting, run:
-
-```
-npm run lint
-```
-
-### Contribute
-Please contribute to the project if you know how to make it better, including this README :)
+To learn React, check out the [React documentation](https://reactjs.org/).

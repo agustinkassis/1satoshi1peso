@@ -1,9 +1,4 @@
-@import "base/reset";
-@import "base/common";
-
-
 body {
-
 }
 
 main {
@@ -22,10 +17,11 @@ section#loading {
   }
 }
 
-section#date {}
+section#date {
+}
 
 section#date h1 {
-    font-size: 5em;
+  font-size: 5em;
 }
 
 .quote {
@@ -61,7 +57,6 @@ section#date h1 {
     margin: 0px 13px 0px 13px;
     flex: inherit;
   }
-
 }
 
 .times {
@@ -71,5 +66,5 @@ section#date h1 {
 }
 
 .hidden {
-  display:none;
+  display: none;
 }

@@ -1,84 +1,58 @@
 {
-  "name": "1Satoshi1Peso",
-  "version": "0.1.0",
-  "description": "1 Satoshi = 1 Peso",
-  "engines": {
-    "node": "10.12.0"
+  "name": "1satoshi1peso",
+  "version": "0.2.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/styles": "^4.11.4",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "gsap": "^3.7.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "clean": "shx rm -rf build",
-    "webpack": "webpack --config config/webpack.config.production.js",
-    "sass": "node-sass src/styles/index.scss build/index.css --output-style compressed",
-    "build": "npm run clean && npm run sass && npm run webpack",
-    "lint": "eslint src config",
-    "dev": "webpack-cli serve --mode development --config config/webpack.config.dev.js",
-    "test": "export NODE_ENV=test && jest",
-    "start": "serve -s build"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/agustinkassis/1satoshi1peso"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
-  "author": "Agustin Kassis",
-  "license": "MIT",
-  "homepage": "https://1satoshi1peso.ar",
-  "dependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
-    "@babel/preset-react": "^7.12.5",
-    "autoprefixer": "^10.0.2",
-    "babel-loader": "^8.2.0",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "bootstrap": "^4.5.3",
-    "copy-webpack-plugin": "^6.3.0",
-    "css-loader": "^5.0.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
-    "file-loader": "^5.1.0",
-    "gsap": "^3.5.1",
-    "history": "^4.10.1",
-    "html-webpack-plugin": "^4.5.0",
-    "jest": "^24.9.0",
-    "jquery": "^3.5.1",
-    "node-sass": "^5.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0",
-    "sass-loader": "^10.0.5",
-    "serve": "^11.3.2",
-    "shx": "^0.3.3",
-    "style-loader": "^2.0.0",
-    "webpack": "^5.4.0",
-    "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0"
-  },
-  "jest": {
-    "verbose": true,
-    "bail": true,
-    "collectCoverage": true,
-    "coverageDirectory": "coverage",
-    "moduleNameMapper": {
-      "\\.(jpe?g|png|gif|eot|otf|webp|svg|ttf|woff2?|mp[34]|webm|wav|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less|s[ac]ss|styl)$": "<rootDir>/__mocks__/styleMock.js"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
-    "moduleDirectories": [
-      "node_modules"
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   },
   "devDependencies": {
-    "clean-webpack-plugin": "^3.0.0",
-    "css-url-relative-plugin": "^1.0.1",
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-standard": "^4.1.0"
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.24.0",
+    "prettier": "^2.3.2"
   }
 }
