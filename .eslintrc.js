@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: ["plugin:react/recommended", "standard"],
+  extends: ["plugin:react/recommended", "standard", "prettier"],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
@@ -21,10 +21,12 @@ module.exports = {
       version: "16.12.0",
     },
   },
-  plugins: ["react"],
+  plugins: ["react", "prettier"],
   rules: {
     semi: 0,
     "comma-dangle": 0,
     "new-cap": 1,
+    "prettier/prettier": ["error"],
+    "no-use-before-define": "off",
   },
 };
