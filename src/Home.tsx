@@ -111,7 +111,6 @@ class Home extends React.Component {
             this.date = comp;
           }}
         />
-
         <section id="start">
           <Quote
             ref={(comp) => {
@@ -131,7 +130,6 @@ class Home extends React.Component {
             right={{ qty: 1, symbol: "ARS" }}
           />
         </section>
-
         <section className="hidden" id="decimals">
           <div>1 Bitcoin = 2.970.000 ARS</div>
           <div>0,1 Bitcoin = 297.000 ARS</div>
@@ -143,12 +141,10 @@ class Home extends React.Component {
           <div>0,0000001 Bitcoin = 0,297 ARS</div>
           <div>0,00000001 Bitcoin = 0,0297 ARS</div>
         </section>
-
         <section id="sat_ars">
           <div>0,00000001 Bitcoin = 0,0297 ARS</div>
           <div>1 Satoshi = 0,0297 ARS</div>
         </section>
-
         <ProgressBar
           opacity={1}
           ref={(comp) => {
@@ -156,7 +152,6 @@ class Home extends React.Component {
           }}
           progress={9.6}
         />
-
         <Footer />
       </div>
     );

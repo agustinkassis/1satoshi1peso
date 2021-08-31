@@ -1,4 +1,6 @@
 body {
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 main {
@@ -24,16 +26,19 @@ section#date h1 {
   font-size: 5em;
 }
 
+section#start {
+  width: 120%;
+  margin-left: -20%;
+}
+
 .quote {
-  font-size: 4em;
+  font-size: 7vw;
   display: flex;
-  flex-wrap: wrap;
-  min-width: 720px;
+  width: 100%;
   transition: 1s transform;
-
   .side {
-    flex: 1 1 1px;
-
+    flex: 1 1 0;
+    flex-wrap: nowrap;
     > span {
       display: inline-block;
     }
@@ -41,15 +46,18 @@ section#date h1 {
 
   .left {
     text-align: right;
-    padding-right: 16px;
+    padding-right: 1vw;
+    .symbol span {
+      margin-left: 2vw;
+    }
   }
 
   .right {
     text-align: left;
-    padding-left: 16px;
+    padding-left: 1vw;
 
     .symbol span {
-      margin-left: 0.2em;
+      margin-left: 2vw;
     }
   }
 
