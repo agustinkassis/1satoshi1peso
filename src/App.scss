@@ -32,10 +32,15 @@ section#start {
 }
 
 .quote {
-  font-size: 7vw;
+  font-size: 6vw;
   display: flex;
   width: 100%;
   transition: 1s transform;
+
+  &.satBtc {
+    margin-top: -4vw;
+  }
+
   .side {
     flex: 1 1 0;
     flex-wrap: nowrap;

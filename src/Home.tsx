@@ -6,7 +6,7 @@ import Quote from "./components/Quote";
 import Times from "./components/Times";
 import ProgressBar from "./components/ProgressBar";
 
-import { gsap } from "gsap";
+import { gsap } from "gsap/all";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import CSSRulePlugin from "gsap/CSSRulePlugin";
 import CSSPlugin from "gsap/CSSPlugin";
@@ -24,6 +24,7 @@ class Home extends React.Component {
   date: Date | null;
   mainQuote: Quote;
   usdArsQuote: Quote;
+  satBtcQuote: Quote;
   progressBar: ProgressBar | null;
 
   constructor(props: IHomeProps) {
@@ -99,8 +100,44 @@ class Home extends React.Component {
       "usd_ars_merge+=0.5"
     );
 
-    // timeline.play('usd_ars_merge');
+    timeline.addLabel("show_sat_btc");
+
+    timeline.add(
+      gsap.set(".satBtc .right .digits .digit", {
+        scaleX: 0,
+        display: "inline-block",
+        width: "0px",
+      })
+    );
+    timeline.add(this.satBtcQuote.getShowTween(1), "+=0");
+
+    let list: Element[] = [];
+    const belowZero = Array.from(
+      document.querySelectorAll(".satBtc .right .digits .digit.belowzero")
+    );
+    list.push(belowZero.pop());
+    list.push(document.querySelector(".satBtc .right .digits .digit.comma"));
+    list.push(document.querySelector(".satBtc .right .digits .digit.integer"));
+    list = list.concat(belowZero);
+
+    timeline.add(
+      gsap.to(list, {
+        duration: 0.25,
+        scale: 1,
+        width: "auto",
+        ease: "power4",
+        stagger: {
+          amount: 2,
+          ease: "slow",
+        },
+      }),
+      "-=0.8"
+    );
+
+    // timeline.play("show_sat_btc");
     timeline.play();
+
+    // GSDevTools.create();
   }
 
   render() {
@@ -128,6 +165,15 @@ class Home extends React.Component {
             }}
             left={{ qty: 1, symbol: "USD" }}
             right={{ qty: 1, symbol: "ARS" }}
+          />
+
+          <Quote
+            className="satBtc"
+            ref={(comp) => {
+              this.satBtcQuote = comp;
+            }}
+            left={{ qty: 1, symbol: "Satoshi" }}
+            right={{ qty: 0.00000001, symbol: "Bitcoin" }}
           />
         </section>
         <section className="hidden" id="decimals">

@@ -14,6 +14,7 @@ type IProps = {
   left: SideProps;
   right: SideProps;
   autoplay?: boolean;
+  className?: string;
   opacity?: number;
 };
 
@@ -26,6 +27,7 @@ class Quote extends React.Component<IProps> {
   static defaultProps = {
     autoplay: true,
     opacity: 0,
+    className: "",
   };
 
   static propTypes = {
@@ -98,7 +100,7 @@ class Quote extends React.Component<IProps> {
         ref={(comp) => {
           this.element = comp;
         }}
-        className="quote"
+        className={`quote ${this.props.className}`}
       >
         <QuoteSide
           ref={(comp) => {

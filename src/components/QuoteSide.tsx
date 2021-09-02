@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { gsap, TweenMax } from "gsap";
+import Digits from "./Digits";
 
 interface IState {
   symbol: string;
@@ -17,7 +18,7 @@ type IProps = typeof QuoteSide.defaultProps & {
 class QuoteSide extends React.Component<IProps, IState> {
   timeline: gsap.core.Timeline;
   element: HTMLDivElement;
-  qtyElement: HTMLSpanElement;
+  qtyElement: Digits;
   symbolElement: HTMLSpanElement;
 
   static defaultProps = {
@@ -121,14 +122,12 @@ class QuoteSide extends React.Component<IProps, IState> {
         style={{ opacity: this.props.opacity }}
         className={`side ${this.props.className}`}
       >
-        <span
+        <Digits
           ref={(comp) => {
             this.qtyElement = comp;
           }}
-          className="qty"
-        >
-          <span>{this.state.qty.toLocaleString()}</span>
-        </span>
+          amount={this.state.qty}
+        />
         <span
           ref={(comp) => {
             this.symbolElement = comp;
