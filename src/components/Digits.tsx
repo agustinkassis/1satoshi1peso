@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { TweenMax } from "gsap";
 
 type IProps = {
-  amount?: number;
+  amount?: number | string;
+  className?: string;
 };
 
 type ValidIndexType =
@@ -18,10 +19,11 @@ class Digits extends React.Component<IProps> {
   element: HTMLElement;
 
   static propTypes = {
-    amount: PropTypes.number,
+    amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    className: PropTypes.string,
   };
 
-  generateAmount(amount: number): ReactElement[] {
+  generateAmount(amount: number | string): ReactElement[] {
     const str = amount.toLocaleString("es", {
       maximumFractionDigits: 8,
     });
@@ -39,7 +41,7 @@ class Digits extends React.Component<IProps> {
       }
       num === "." && classes.push("delimiter");
 
-      !isNaN && classes.push("number");
+      !isNaN(parseInt(num)) && classes.push("number");
 
       const spanElement = (
         <span className={classes.join(" ")} key={i}>
@@ -72,8 +74,11 @@ class Digits extends React.Component<IProps> {
   }
 
   render() {
+    const classes = ["qty", "digits"];
+    this.props.className && classes.push(this.props.className);
+
     return (
-      <span className="qty digits">
+      <span className={classes.join(" ")}>
         {this.generateAmount(this.props.amount)}
       </span>
     );

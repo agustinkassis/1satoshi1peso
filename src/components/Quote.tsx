@@ -7,7 +7,8 @@ import QuoteSide from "./QuoteSide";
 
 export interface SideProps {
   qty: number;
-  symbol: string;
+  symbols: string[];
+  prefix?: string;
 }
 
 type IProps = {
@@ -109,7 +110,8 @@ class Quote extends React.Component<IProps> {
           opacity={this.props.opacity}
           className="left"
           qty={this.props.left.qty}
-          symbol={this.props.left.symbol}
+          prefix={this.props.left.prefix}
+          symbols={this.props.left.symbols}
         />
 
         <span
@@ -129,7 +131,8 @@ class Quote extends React.Component<IProps> {
           opacity={this.props.opacity}
           className="right"
           qty={this.props.right.qty}
-          symbol={this.props.right.symbol}
+          prefix={this.props.right.prefix}
+          symbols={this.props.right.symbols}
         />
       </div>
     );

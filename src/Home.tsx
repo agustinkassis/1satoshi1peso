@@ -39,12 +39,11 @@ class Home extends React.Component {
   componentDidMount() {
     const timeline = this.timeline;
     timeline.addLabel("start");
-    // timeline.add(this.date.getShowTween(2), 'start');
+    // timeline.add(this.date.getShowTween(2), "start");
     timeline.add(this.mainQuote.getShowTween(1), "+=0");
-    timeline.add(
-      this.mainQuote.rightSide.getChangeQtyTween(btcUsdPrice, 2),
-      "-=0.7"
-    );
+
+    timeline.addLabel("main_quote", "-=0.7");
+    timeline.add(this.mainQuote.rightSide.getChangeQtyTween(btcUsdPrice, 2));
 
     timeline.addLabel("usd_ars_in", "+=0.1");
     timeline.add(this.usdArsQuote.getShowTween(1));
@@ -58,22 +57,14 @@ class Home extends React.Component {
     timeline.to(this.usdArsQuote.equal, 1, { x: -300, opacity: 0 }, "-=0.7");
 
     timeline.addLabel("usd_change_label", "-=1.2");
+
     timeline.add(
-      this.mainQuote.rightSide.getChangeSymbolTween("ARS", 0.1),
+      gsap.to(".mainQuote .side.right .symbol .usd", {
+        duration: 1,
+        marginTop: "-50%",
+        ease: "elastic",
+      }),
       "usd_change_label+=0.3"
-    );
-    timeline.fromTo(
-      this.mainQuote.rightSide.symbolElement,
-      1,
-      { x: 20, opacity: 0 },
-      { x: 0, opacity: 1 }
-    );
-    timeline.fromTo(
-      this.mainQuote.rightSide.symbolElement,
-      1,
-      { x: 0, opacity: 1 },
-      { x: 300, opacity: 0 },
-      "usd_change_label"
     );
 
     timeline.addLabel("usd_ars_merge", "-=1.5");
@@ -103,7 +94,7 @@ class Home extends React.Component {
     timeline.addLabel("show_sat_btc");
 
     timeline.add(
-      gsap.set(".satBtc .right .digits .digit", {
+      gsap.set(".satBtc .right .digits.visible .digit", {
         scaleX: 0,
         display: "inline-block",
         width: "0px",
@@ -113,11 +104,17 @@ class Home extends React.Component {
 
     let list: Element[] = [];
     const belowZero = Array.from(
-      document.querySelectorAll(".satBtc .right .digits .digit.belowzero")
+      document.querySelectorAll(
+        ".satBtc .right .digits.visible .digit.belowzero"
+      )
     );
     list.push(belowZero.pop());
-    list.push(document.querySelector(".satBtc .right .digits .digit.comma"));
-    list.push(document.querySelector(".satBtc .right .digits .digit.integer"));
+    list.push(
+      document.querySelector(".satBtc .right .digits.visible .digit.comma")
+    );
+    list.push(
+      document.querySelector(".satBtc .right .digits.visible .digit.integer")
+    );
     list = list.concat(belowZero);
 
     timeline.add(
@@ -134,10 +131,83 @@ class Home extends React.Component {
       "-=0.8"
     );
 
-    // timeline.play("show_sat_btc");
-    timeline.play();
+    timeline.addLabel("bounce_sat_up");
 
-    // GSDevTools.create();
+    timeline.add(
+      gsap.to(".satBtc .left", {
+        position: "relative",
+        duration: 0.7,
+        top: "-6vh",
+        ease: "elastic",
+      }),
+      "+=0.8"
+    );
+
+    timeline.addLabel("bounce_sat_hit", "-=0.6");
+
+    timeline.add(
+      gsap.to(".satBtc .left", {
+        duration: 1,
+        top: "0",
+        ease: "bounce",
+      }),
+      "-=0.4"
+    );
+
+    timeline.addLabel("bounce_sat_up_out", "-=1");
+
+    timeline.add(
+      gsap.to(".mainQuote .side.left .symbol .bitcoin", {
+        duration: 1.2,
+        marginTop: "-33%",
+        ease: "elastic",
+      }),
+      "bounce_sat_hit"
+    );
+
+    timeline.addLabel("ars_to_sat");
+
+    timeline.add(
+      gsap.set(".mainQuote .side.right .digits.prefix .digit", {
+        width: "0vh",
+        scale: "0vh",
+      }),
+      "ars_to_sat"
+    );
+
+    timeline.add(
+      gsap.to(".mainQuote .side.right .digits.visible .delimiter", {
+        duration: 0.6,
+        css: {
+          scaleX: 0,
+          width: 0,
+          opacity: 0,
+        },
+        // ease: "elastic",
+        stagger: {
+          amount: 0.4,
+          ease: "slow",
+        },
+      })
+    );
+
+    timeline.add(
+      gsap.to(".mainQuote .side.right .digits.visible", {
+        duration: 0.8,
+        paddingLeft: "2vh",
+      }),
+      "ars_to_sat"
+    );
+
+    timeline.add(
+      this.mainQuote.rightSide.getCommaTimeline(
+        ".mainQuote .side.right .digits.prefix .digit.comma",
+        ".mainQuote .side.right .digits.visible .digit.number"
+      )
+    );
+
+    timeline.play("ars_to_sat");
+    // timeline.play();
   }
 
   render() {
@@ -150,11 +220,15 @@ class Home extends React.Component {
         />
         <section id="start">
           <Quote
+            className="mainQuote"
             ref={(comp) => {
               this.mainQuote = comp;
             }}
-            left={{ qty: 1, symbol: "Bitcoin" }}
-            right={{ qty: 1, symbol: "USD" }}
+            left={{
+              qty: 1,
+              symbols: ["Bitcoin", "Satoshi"],
+            }}
+            right={{ qty: btcArsPrice, symbols: ["USD", "ARS"], prefix: "0,0" }}
           />
 
           <Times />
@@ -163,8 +237,8 @@ class Home extends React.Component {
             ref={(comp) => {
               this.usdArsQuote = comp;
             }}
-            left={{ qty: 1, symbol: "USD" }}
-            right={{ qty: 1, symbol: "ARS" }}
+            left={{ qty: 1, symbols: ["USD"] }}
+            right={{ qty: 1, symbols: ["ARS"] }}
           />
 
           <Quote
@@ -172,25 +246,11 @@ class Home extends React.Component {
             ref={(comp) => {
               this.satBtcQuote = comp;
             }}
-            left={{ qty: 1, symbol: "Satoshi" }}
-            right={{ qty: 0.00000001, symbol: "Bitcoin" }}
+            left={{ qty: 1, symbols: ["Satoshi"] }}
+            right={{ qty: 0.00000001, symbols: ["Bitcoin"] }}
           />
         </section>
-        <section className="hidden" id="decimals">
-          <div>1 Bitcoin = 2.970.000 ARS</div>
-          <div>0,1 Bitcoin = 297.000 ARS</div>
-          <div>0,01 Bitcoin = 29.700 ARS</div>
-          <div>0,001 Bitcoin = 2.970 ARS</div>
-          <div>0,0001 Bitcoin = 297 ARS</div>
-          <div>0,00001 Bitcoin = 29,7 ARS</div>
-          <div>0,000001 Bitcoin = 2,97 ARS</div>
-          <div>0,0000001 Bitcoin = 0,297 ARS</div>
-          <div>0,00000001 Bitcoin = 0,0297 ARS</div>
-        </section>
-        <section id="sat_ars">
-          <div>0,00000001 Bitcoin = 0,0297 ARS</div>
-          <div>1 Satoshi = 0,0297 ARS</div>
-        </section>
+
         <ProgressBar
           opacity={1}
           ref={(comp) => {
