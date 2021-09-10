@@ -23,6 +23,7 @@ class Home extends React.Component {
   timeline: gsap.core.Timeline;
   date: Date | null;
   mainQuote: Quote;
+  finalQuote: Quote;
   usdArsQuote: Quote;
   satBtcQuote: Quote;
   progressBar: ProgressBar | null;
@@ -39,7 +40,11 @@ class Home extends React.Component {
   componentDidMount() {
     const timeline = this.timeline;
     timeline.addLabel("start");
-    // timeline.add(this.date.getShowTween(2), "start");
+
+    timeline.set(".finalQuote", {
+      display: "none",
+    });
+    timeline.add(this.date.getShowTween(2), "start");
     timeline.add(this.mainQuote.getShowTween(1), "+=0");
 
     timeline.addLabel("main_quote", "-=0.7");
@@ -93,13 +98,16 @@ class Home extends React.Component {
 
     timeline.addLabel("show_sat_btc");
 
-    timeline.add(
-      gsap.set(".satBtc .right .digits.visible .digit", {
+    timeline.set(
+      ".satBtc .right .digits.visible .digit",
+      {
         scaleX: 0,
         display: "inline-block",
         width: "0px",
-      })
+      },
+      "show_sat_btc"
     );
+
     timeline.add(this.satBtcQuote.getShowTween(1), "+=0");
 
     let list: Element[] = [];
@@ -167,16 +175,33 @@ class Home extends React.Component {
 
     timeline.addLabel("ars_to_sat");
 
-    timeline.add(
-      gsap.set(".mainQuote .side.right .digits.prefix .digit", {
-        width: "0vh",
-        scale: "0vh",
-      }),
+    timeline.set(
+      ".finalQuote",
+      {
+        display: "flex",
+      },
+      "ars_to_sat"
+    );
+
+    timeline.set(
+      ".mainQuote",
+      {
+        display: "none",
+      },
+      "ars_to_sat"
+    );
+
+    timeline.set(
+      ".finalQuote .side.right .digits.prefix .digit",
+      {
+        width: "0vw",
+        scale: "0vw",
+      },
       "ars_to_sat"
     );
 
     timeline.add(
-      gsap.to(".mainQuote .side.right .digits.visible .delimiter", {
+      gsap.to(".finalQuote .side.right .digits.visible .delimiter", {
         duration: 0.6,
         css: {
           scaleX: 0,
@@ -192,22 +217,23 @@ class Home extends React.Component {
     );
 
     timeline.add(
-      gsap.to(".mainQuote .side.right .digits.visible", {
+      gsap.to(".finalQuote .side.right .digits.visible", {
         duration: 0.8,
-        paddingLeft: "2vh",
+        paddingLeft: "2vw",
       }),
       "ars_to_sat"
     );
 
     timeline.add(
-      this.mainQuote.rightSide.getCommaTimeline(
-        ".mainQuote .side.right .digits.prefix .digit.comma",
-        ".mainQuote .side.right .digits.visible .digit.number"
-      )
+      this.mainQuote.rightSide.getCommaTimeline({
+        commaElement: ".finalQuote .side.right .digits.prefix .digit.comma",
+        digitsElements: ".finalQuote .side.right .digits.visible .digit.number",
+        finalVal: btcArsPrice,
+      })
     );
 
-    timeline.play("ars_to_sat");
-    // timeline.play();
+    // timeline.play("ars_to_sat");
+    timeline.play();
   }
 
   render() {
@@ -228,7 +254,20 @@ class Home extends React.Component {
               qty: 1,
               symbols: ["Bitcoin", "Satoshi"],
             }}
-            right={{ qty: btcArsPrice, symbols: ["USD", "ARS"], prefix: "0,0" }}
+            right={{ qty: 1, symbols: ["USD", "ARS"] }}
+          />
+
+          <Quote
+            className="finalQuote"
+            ref={(comp) => {
+              this.finalQuote = comp;
+            }}
+            opacity={1}
+            left={{
+              qty: 1,
+              symbols: ["Satoshi"],
+            }}
+            right={{ qty: btcArsPrice, symbols: ["ARS"], prefix: "0,0" }}
           />
 
           <Times />

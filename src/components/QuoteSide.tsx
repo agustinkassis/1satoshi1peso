@@ -84,7 +84,7 @@ class QuoteSide extends React.Component<IProps, IState> {
       keyframes: [
         {
           duration: duration,
-          left: "-=" + step.toFixed(2) + "vh",
+          left: "-=" + step.toFixed(2) + "vw",
         },
       ],
     });
@@ -105,11 +105,11 @@ class QuoteSide extends React.Component<IProps, IState> {
       keyframes: [
         {
           duration: duration / 2,
-          top: "1.4vh",
+          top: "1.4vw",
         },
         {
           duration: duration / 2,
-          top: "0vh",
+          top: "0vw",
         },
       ],
     });
@@ -128,17 +128,17 @@ class QuoteSide extends React.Component<IProps, IState> {
       keyframes: [
         {
           duration: duration / 4 / 3,
-          paddingLeft: "1.3vh",
+          paddingLeft: "1.3vw",
         },
         {
           delay: duration / 2,
           duration: duration / 4 / 3,
-          paddingLeft: "0vh",
-          paddingRight: "1.3vh",
+          paddingLeft: "0vw",
+          paddingRight: "1.3vw",
         },
         {
           duration: duration / 4 / 3,
-          paddingRight: "0vh",
+          paddingRight: "0vw",
         },
       ],
       stagger: duration,
@@ -200,28 +200,37 @@ class QuoteSide extends React.Component<IProps, IState> {
     );
   }
 
-  getCommaTimeline(
-    commaElement: string,
-    digitsElements: string,
+  getCommaTimeline({
+    commaElement,
+    digitsElements,
+    finalVal,
     decimals = 3,
-    duration = 0.4
-  ) {
+    duration = 0.4,
+  }: {
+    commaElement: string;
+    digitsElements: string;
+    finalVal: number;
+    decimals?: number;
+    duration?: number;
+  }) {
     const timeline = gsap.timeline({});
-    const steps = this.state.qty.toString().length;
-    const stepLong = 4.42;
+    const steps = finalVal.toString().length;
+    const stepLong = 3.75;
 
-    decimals = decimals - countZeroDecimals(this.state.qty / 100000000);
+    decimals = decimals - countZeroDecimals(finalVal / 100000000);
 
     timeline.addLabel("comma_timeline");
 
-    timeline.add(
-      gsap.set(commaElement, {
+    timeline.set(
+      commaElement,
+      {
         scale: 1,
-        width: "1.6vh",
+        width: "1.6vw",
         display: "inline-block",
-        left: stepLong * steps + 1.8 + "vh",
+        left: stepLong * steps + 2 + "vw",
         position: "absolute",
-      })
+      },
+      "comma_timeline"
     );
 
     for (let i = 0; i < steps; i++) {
@@ -255,30 +264,33 @@ class QuoteSide extends React.Component<IProps, IState> {
     );
 
     timeline.addLabel("comma_positioned");
-    timeline.add(
-      gsap.set(commaElement, {
+    timeline.set(
+      commaElement,
+      {
         position: "inherit",
         width: "auto",
-      }),
+      },
       "comma_positioned"
     );
-    timeline.add(
-      gsap.set(".mainQuote .side.right .digits.visible", {
+
+    timeline.set(
+      ".finalQuote .side.right .digits.visible",
+      {
         paddingLeft: 0,
-      }),
+      },
       "comma_positioned"
     );
 
     timeline.add(
       this.generateZerosTween({
-        elements: ".mainQuote .side.right .digits.prefix .digit.number",
+        elements: ".finalQuote .side.right .digits.prefix .digit.number",
         duration,
       })
     );
 
     timeline.add(
       this.generateZerosRemovalTween({
-        elements: ".mainQuote .side.right .digits.visible .digit.number",
+        elements: ".finalQuote .side.right .digits.visible .digit.number",
         duration,
         decimals,
       }),
