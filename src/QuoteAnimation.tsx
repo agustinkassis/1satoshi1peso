@@ -1,5 +1,6 @@
 /* eslint-disable new-cap */
 import React from "react";
+import PropTypes from "prop-types";
 import Footer from "./components/Footer";
 import Date from "./components/Date";
 import Quote from "./components/Quote";
@@ -13,13 +14,12 @@ import CSSPlugin from "gsap/CSSPlugin";
 
 gsap.registerPlugin(ScrollTrigger, CSSPlugin, CSSRulePlugin);
 
-const btcUsdPrice = 58763;
-const usdArsPrice = 165;
-const btcArsPrice = btcUsdPrice * usdArsPrice;
+interface IQuoteAnimationProps {
+  btcUsd: number;
+  usdArs: number;
+}
 
-interface IHomeProps {}
-
-class Home extends React.Component {
+class QuoteAnimation extends React.Component {
   timeline: gsap.core.Timeline;
   date: Date | null;
   mainQuote: Quote;
@@ -28,16 +28,35 @@ class Home extends React.Component {
   satBtcQuote: Quote;
   progressBar: ProgressBar | null;
 
-  constructor(props: IHomeProps) {
+  btcUsdPrice: number;
+  usdArsPrice: number;
+  btcArsPrice: number;
+
+  static propTypes = {
+    btcUsd: PropTypes.number,
+    usdArs: PropTypes.number,
+  };
+
+  constructor(props: IQuoteAnimationProps) {
     super(props);
 
+    console.dir(props);
     this.timeline = gsap.timeline({});
 
     this.date = null;
     this.progressBar = null;
+
+    this.btcUsdPrice = props.btcUsd;
+    this.usdArsPrice = props.usdArs;
+    this.btcArsPrice = this.btcUsdPrice * this.usdArsPrice;
   }
 
   componentDidMount() {
+    this.createTimeline();
+    this.timeline.play();
+  }
+
+  createTimeline() {
     const timeline = this.timeline;
     timeline.addLabel("start");
 
@@ -48,12 +67,14 @@ class Home extends React.Component {
     timeline.add(this.mainQuote.getShowTween(1), "+=0");
 
     timeline.addLabel("main_quote", "-=0.7");
-    timeline.add(this.mainQuote.rightSide.getChangeQtyTween(btcUsdPrice, 2));
+    timeline.add(
+      this.mainQuote.rightSide.getChangeQtyTween(this.btcUsdPrice, 2)
+    );
 
     timeline.addLabel("usd_ars_in", "+=0.1");
     timeline.add(this.usdArsQuote.getShowTween(1));
     timeline.add(
-      this.usdArsQuote.rightSide.getChangeQtyTween(usdArsPrice, 2),
+      this.usdArsQuote.rightSide.getChangeQtyTween(this.usdArsPrice, 2),
       "-=0.7"
     );
 
@@ -92,7 +113,7 @@ class Home extends React.Component {
       "usd_ars_merge+=0.9"
     );
     timeline.add(
-      this.mainQuote.rightSide.getChangeQtyTween(btcArsPrice, 2),
+      this.mainQuote.rightSide.getChangeQtyTween(this.btcArsPrice, 2),
       "usd_ars_merge+=0.5"
     );
 
@@ -228,12 +249,11 @@ class Home extends React.Component {
       this.mainQuote.rightSide.getCommaTimeline({
         commaElement: ".finalQuote .side.right .digits.prefix .digit.comma",
         digitsElements: ".finalQuote .side.right .digits.visible .digit.number",
-        finalVal: btcArsPrice,
+        finalVal: this.btcArsPrice,
       })
     );
 
     // timeline.play("ars_to_sat");
-    timeline.play();
   }
 
   render() {
@@ -267,7 +287,7 @@ class Home extends React.Component {
               qty: 1,
               symbols: ["Satoshi"],
             }}
-            right={{ qty: btcArsPrice, symbols: ["ARS"], prefix: "0,0" }}
+            right={{ qty: this.btcArsPrice, symbols: ["ARS"], prefix: "0,0" }}
           />
 
           <Times />
@@ -303,4 +323,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default React.memo(QuoteAnimation);
